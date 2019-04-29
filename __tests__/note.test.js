@@ -20,6 +20,14 @@ describe('Note CRUD operation', () => {
         server = createServer(done, initialDatabase);
     })
 
+    afterEach(done => {
+        request(server).get('/note/')
+            .then(res => {
+                currentState = res.body
+            })
+            .then(done)
+    })
+
     it(`can get all notes`, done => {
         request(server)
             .get('/note/')
@@ -37,7 +45,6 @@ describe('Note CRUD operation', () => {
             label: 'some new note',
             content: 'some new note'
         }
-        const nextState = [...currentState, noteToAdd];
         request(server)
             .post('/note/')
             .send(noteToAdd)
