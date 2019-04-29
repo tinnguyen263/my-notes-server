@@ -1,20 +1,30 @@
-const express = require('express');
-const router = express.Router();
+module.exports.withDatabase = database => {
+    const express = require('express');
+    const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.send({})
-})
+    router.get('/', (req, res) => {
+        res.send(database.noteService.getAll())
+    })
 
-router.post('/', (req, res) => {
-    res.send({})
-})
+    router.get('/:id', (req, res) => {
+        const noteId = +req.params.id;
+        res.send(database.noteService.getById(noteId))
+    })
 
-router.put('/', (req, res) => {
-    res.send({})
-})
+    router.post('/', (req, res) => {
+        const newNote = req.body;
+        res.send(database.noteService.add(newNote))
+    })
 
-router.delete('/', (req, res) => {
-    res.send({})
-})
+    router.put('/', (req, res) => {
+        const newNote = req.body;
+        res.send(database.noteService.update(newNote))
+    })
 
-module.exports = router;
+    router.delete('/:id', (req, res) => {
+        const noteId = +req.params.id;
+        res.send(database.noteService.deleteById(noteId))
+    })
+
+    return router
+}

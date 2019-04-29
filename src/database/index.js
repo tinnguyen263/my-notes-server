@@ -22,10 +22,14 @@ class Database {
                 this.data.notes = this.data.notes.map(noteInNotes => noteInNotes.id === note.id ? note : noteInNotes)
                 return note;
             },
+            deleteById: (id) => {
+                let noteToDelete = this.data.notes.find(note => note.id === id);
+                if (noteToDelete) this.data.notes = this.data.notes.filter(noteInNotes => noteInNotes.id !== id);
+                return noteToDelete;
+            },
             delete: (note) => {
-                this.data.notes = this.data.notes.filter(noteInNotes => noteInNotes.id !== note.id)
-                return note;
-            }
+                return deleteById(note.id);
+            },
         }
     }
 }
